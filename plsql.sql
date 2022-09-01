@@ -115,6 +115,12 @@ ON B.IFSC_CODE=A.IFSC_CODE
 INNER JOIN CUSTOMER_PERSONAL_INFO CP
 ON CP.CUSTOMER_ID=A.CUSTOMER_ID;
 
+-- 4)Write a query which will display the customer id, customer name, gender, marital status along with the unique reference string and sort the records based on customer id in descending order.
+-- Hint:Generate unique reference string as mentioned below.CustomerName_Gender_MaritalStatus. Use ""UNIQUE_REF_STRING"" as alias name for displaying the unique reference string."
+
+SELECT CUSTOMER_ID, CUSTOMER_NAME, GENDER, MARITAL_STATUS, CONCAT(CUSTOMER_NAME,CONCAT('_',CONCAT(GENDER,CONCAT('_',MARITAL_STATUS)))) AS UNIQUE_REF_STRING
+FROM CUSTOMER_PERSONAL_INFO  order by customer_id desc;
+
 -- 5.Write a query which will display the account number, customer id, registration date, initial deposit amount of the customer whose initial deposit amount is within the range of Rs.15000 to Rs.25000. 
 
 SELECT ACCOUNT_NO, CUSTOMER_ID, REGISTRATION_DATE, INITIAL_DEPOSIT
@@ -158,6 +164,10 @@ INNER JOIN bank_info B ON A.IFSC_CODE = B.IFSC_CODE;
 -- 13) Write a query which will display customer id, customer name, date of birth, guardian name, contact number,mail id and reference account holder's name of the customers who has submitted the passport as an identification document.
 SELECT CP.CUSTOMER_ID ,CP.CUSTOMER_NAME ,CP.DATE_OF_BIRTH ,CP.GUARDIAN_NAME , CP.CONTACT_NO ,CP.MAIL_ID, CR.REFERENCE_ACC_NAME FROM customer_personal_info CP INNER JOIN customer_reference_info CR ON CP.customer_id = CR.customer_id WHERE cp.identification_doc_type = 'PASSPORT';
 
+-- 14) Write a query to display the customer id, customer name, account number, account type, initial deposit,interest who have deposited the maximum amount in the bank.
+
+SELECT * FROM (SELECT CP.CUSTOMER_ID, CP.CUSTOMER_NAME, A.ACCOUNT_NO, A.ACCOUNT_TYPE, A.INITIAL_DEPOSIT, A.INTEREST FROM customer_personal_info CP INNER JOIN ACCOUNT_INFO A
+ON CP.CUSTOMER_ID = A.CUSTOMER_ID  ORDER BY A.INITIAL_DEPOSIT DESC) WHERE ROWNUM=1;
 
 -- 15) Write a query to display the customer id, customer name, account number, account type, interest, bank name and initial deposit amount of the customers who are getting maximum interest rate.
 
